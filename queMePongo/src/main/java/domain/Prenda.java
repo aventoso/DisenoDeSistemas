@@ -1,32 +1,27 @@
 package domain;
 
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 
-public abstract class Prenda {
-  public Prenda(String nombre,String tipoPrenda, String categoria, String material, String colorPrincipal, String colorSecundario) {
-    this.nombre = nombre;
-    this.tipoPrenda = validarTipoPrenda(tipoPrenda);
-    this.categoria = validar(categoria);
-    this.material = validar(material);
-    this.colorPrincipal = validar(colorPrincipal);
-    this.colorSecundario = colorSecundario;
+public class Prenda {
+  public Prenda(String tipoPrenda, String categoria, String material, String colorPrincipal, Optional<String> colorSecundario) throws Exception {
+	  this.categoria = validar(categoria);
+	  this.tipoPrenda = validarTipoPrenda(tipoPrenda,categoria);
+	  this.material = validar(material);
+	  this.colorPrincipal = validar(colorPrincipal);
+	  this.colorSecundario = colorSecundario;
   }
 
-  private String nombre;
+ 
   private String tipoPrenda;
   private String categoria;
   private String material;
   private String colorPrincipal;
-  private String colorSecundario;
+  private Optional<String> colorSecundario;
 
 
-  public String getNombre() {
-    return nombre;
-  }
 
-  public void setNombre(String nombre) {
-    this.nombre = nombre;
-  }
 
   public String getTipoPrenda() {
     return tipoPrenda;
@@ -60,19 +55,27 @@ public abstract class Prenda {
     this.colorPrincipal = colorPrincipal;
   }
 
-  public String getColorSecundario() {
+  public Optional<String> getColorSecundario() {
     return colorSecundario;
   }
 
-  public void setColorSecundario(String colorSecundario) {
+  public void setColorSecundario(Optional<String> colorSecundario) {
     this.colorSecundario = colorSecundario;
   }
 
-  private String validar(String elemento){
+  private String validar(String elemento) throws Exception{
     if(Objects.isNull(elemento)){
-      throw new RuntimeException("No puede ser null");
+      throw new Exception("No puede ser null");
     }
     return elemento;
   }
-  public abstract String validarTipoPrenda(String tipo);
+  
+ 
+  
+  private String validarTipoPrenda(String tipo, String categoria) throws Exception {
+	  if(Arrays.asList(TiposPrendas.values()).stream().anyMatch(t -> t.getTipo().equals(tipo) && t.getCategoria().equals(categoria)) || Objects.isNull(tipo)) {
+		  return tipo;
+	  }
+	  throw new Exception("No es un tipo conocido");
+  }
 }
