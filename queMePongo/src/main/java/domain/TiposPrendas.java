@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.Arrays;
+
 public enum TiposPrendas {
 	REMERA("remera","manga corta"),PANTALON("pantalon","parte inferior");//habria que agregar todos;
 	
@@ -27,6 +29,9 @@ public enum TiposPrendas {
 		this.categoria = categoria;
 	}
 
+	public static boolean esConocido(String tipo, String categoria) {
+		return Arrays.asList(TiposPrendas.values()).stream().anyMatch(t -> t.getTipo().equals(tipo) && t.getCategoria().equals(categoria));
+	}
 	
 
 	

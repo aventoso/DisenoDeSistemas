@@ -1,6 +1,5 @@
 package domain;
 
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -73,7 +72,7 @@ public class Prenda {
  
   
   private String validarTipoPrenda(String tipo, String categoria) throws Exception {
-	  if(Arrays.asList(TiposPrendas.values()).stream().anyMatch(t -> t.getTipo().equals(tipo) && t.getCategoria().equals(categoria)) || Objects.isNull(tipo)) {
+	  if(TiposPrendas.esConocido(tipo,categoria) && Objects.isNull(tipo)) {
 		  return tipo;
 	  }
 	  throw new Exception("No es un tipo conocido");
